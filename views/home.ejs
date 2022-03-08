@@ -1,0 +1,39 @@
+<%- include("partials/header"); -%>
+<div class="box">
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+          
+            <a href="/" class="navbar-brand" ><img class="logo-img" src="/images/logo-2.png" width="150" height="80"></a>
+    
+            <ul class="nav navbar-nav navbar-right">
+              <li id="home" ><a href="/" >HOME</a></li>
+              <li id="ppt"><a href="#Presentation">PRESENTATION</a></li>
+              <li id="signin"><a href="/signin"><button type="button" class="btn btn-info">SIGNIN/SIGNUP</button></a></li>
+            </ul>
+            
+        </div>
+    </nav>
+    
+    <%- include("partials/heading"); -%>
+</div>
+
+
+<div class="box-4">
+    <%- include("partials/SignInSignUP"); -%>
+</div>
+
+<div class="box-3" id="Presentation">
+    <h1 style="color: rgb(255, 255, 255); text-align: center; font-size: 1.5cm; 
+    font-family: Brandon Text,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif; 
+    padding-top: 10px;
+    padding-bottom: 10px;">Our Presentation</h1>
+    
+    <%- include("partials/slideshow"); -%>
+</div>
+
+
+
+<%- include("partials/footer"); -%>
+
+
+
