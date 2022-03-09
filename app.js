@@ -13,7 +13,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static("public"));
 
 
-mongoose.connect("mongodb://localhost:27017/UserlistDB", {useNewUrlParser: true});
+mongoose.connect("mongodb+srv://Klevin05:1186prince@sihtle.oclfr.mongodb.net/UserlistDB", {useNewUrlParser: true});
 
 const itemsSchema = {
     username:String,
@@ -35,20 +35,9 @@ const List = mongoose.model("List", listSchema);
 app.get("/",function(req,res){
     const userName=req.body.Username;
     const password=req.body.password;
-    // var ipAddress = request.connection.remoteAddress;
+    var ipAddress =req.header('x-forwarded-for') || req.connection.remoteAddress;
 
-    Item.findOne({userName:userName},function(err,foundone){
-        if(!err){
-            if(foundone.password==password){
-                const list=new List({
-                    username:userName,
-                    ip:ipAddress
-                })
-                list.save();
-                // res.redirect("/otp");
-            }
-        }
-    })
+    
     
     res.render("home");
 });
@@ -74,7 +63,9 @@ app.post("/login",function(req,res){
     details.save();
     res.redirect("/");
 })
-
+app.get("/otp",function(req,res){
+    res.render("otp");
+})
 
 app.listen(3000,function(){
     console.log("Server Started on port 3000");
