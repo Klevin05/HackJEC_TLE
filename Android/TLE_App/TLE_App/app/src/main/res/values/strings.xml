@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">TLE_App</string>
+    <string name="create_account">Create account</string>
+    <string name="alreadyUser">Already registered?</string>
+    <string name="login_here">Log in here</string>
+    <string name="sign_up">Sign up</string>
+    <string name="login">Log in</string>
+    <string name="continue_login">Log in to continue</string>
+    <string name="invalid_credentials">Invalid credentials try again</string>
+</resources>

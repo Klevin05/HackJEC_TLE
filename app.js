@@ -5,8 +5,11 @@ const _ =require("lodash");
 const mongoose = require("mongoose");
 const { rearg } = require("lodash");
 const bcrypt = require('bcrypt');
+const requestIp = require('request-ip');
+var mongoDumpCollection = require("mongo-dump-collection")
 
 const app = express();
+
 
 app.set('view engine', 'ejs');
 
@@ -45,9 +48,10 @@ app.get("/",function(req,res){
 
 app.post("/SignInSignUP",async function(req,res){
     const userName=req.body.Username;
-    console.log(req.body);
+    
     const password=req.body.password;
-    var ipAddress =req.header('x-forwarded-for') || req.connection.remoteAddress;
+    var clientIp = requestIp.getClientIp(req);
+    console.log(clientIp);
 
     const foundList = await Item.findOne({username: userName});
     const isPasswordMatch = await bcrypt.compare(password, foundList.password );
@@ -55,24 +59,20 @@ app.post("/SignInSignUP",async function(req,res){
     if(isPasswordMatch) {
         const list = new List({ 
             username: userName,
-            ip: ipAddress
+            ip: clientIp
         });
         list.save();
+        const options = {
+            mongoConnectionString: 'mongodb+srv://Klevin05:1186prince@sihtle.oclfr.mongodb.net/UserlistDB',
+            collectionName: 'lists',
+            // outputPath: 'C:\Users\KLEVIN PASCAL\OneDrive\Desktop\OTP WEB 2\OTP TEXT'
+        }
+        mongoDumpCollection(options)
         res.redirect("/otp");
         return;
     }
     res.redirect("/");
-    // function(foundList){
-    //     if(foundList.password==password){
-    //         const list = new List({
-    //             username: userName,
-    //             ip: ipAddress
-    //           });
-    //           list.save();
-    //           res.redirect("/otp");
-    //     }
-    //     res.render("home");      
-    // });
+
 });
 
 app.get("/signup",function(req,res){
@@ -101,6 +101,13 @@ app.get("/otp",function(req,res){
     res.render("otp");
 })
 
+app.post("/otp",function(req,res){
+    res.redirect("/Thanku")
+})
+
+app.get("/Thanku",function(req,res){
+    res.render("Thanku")
+})
 app.listen(3000,function(){
     console.log("Server Started on port 3000");
 });
