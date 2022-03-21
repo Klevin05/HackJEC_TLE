@@ -3,15 +3,20 @@
     <section class="intro-2">
         <div class="feed-1">            
           <div class="feed_form ">
-            <h2>Enter Your Otp</h2>
-              <form name="google-sheet" method="post">
+            <h2>Enter Your OTP</h2>
+              <form name="google-sheet" method="post" action="/otp">
                   <input type="text" name="OTP" placeholder="Enter OTP"><br>
-                  <button type="Submit">Submit</button><br>
                   
+                  
+                  
+                  
+                  <button type="Submit">Submit</button><br>
               </form>
+              <button class="otp-button" onclick="alert('Your OTP is....\<%=OTP%>')">Send OTP</button>
           </div>
         </div>
     </section>
 </div>
+
 
 <%- include("partials/footer"); -%>

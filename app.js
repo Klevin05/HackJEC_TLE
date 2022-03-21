@@ -46,15 +46,20 @@ app.get("/",function(req,res){
     res.render("home");
 })
 
+app.get("/SignInSignUP",function(req,res){
+    res.render("SignInSignUP")
+})
+
 app.post("/SignInSignUP",async function(req,res){
     const userName=req.body.Username;
     
     const password=req.body.password;
     var clientIp = requestIp.getClientIp(req);
-    console.log(clientIp);
+    
 
     const foundList = await Item.findOne({username: userName});
     const isPasswordMatch = await bcrypt.compare(password, foundList.password );
+    console.log(password);
     console.log(isPasswordMatch);
     if(isPasswordMatch) {
         const list = new List({ 
@@ -62,12 +67,12 @@ app.post("/SignInSignUP",async function(req,res){
             ip: clientIp
         });
         list.save();
-        const options = {
-            mongoConnectionString: 'mongodb+srv://Klevin05:1186prince@sihtle.oclfr.mongodb.net/UserlistDB',
-            collectionName: 'lists',
-            // outputPath: 'C:\Users\KLEVIN PASCAL\OneDrive\Desktop\OTP WEB 2\OTP TEXT'
-        }
-        mongoDumpCollection(options)
+        // const options = {
+        //     mongoConnectionString: 'mongodb+srv://Klevin05:1186prince@sihtle.oclfr.mongodb.net/UserlistDB',
+        //     collectionName: 'lists',
+        //     // outputPath: 'C:\Users\KLEVIN PASCAL\OneDrive\Desktop\OTP WEB 2\OTP TEXT'
+        // }
+        // mongoDumpCollection(options)
         res.redirect("/otp");
         return;
     }
@@ -98,10 +103,32 @@ app.post("/signup",async function(req,res){
     res.redirect("/");
 })
 app.get("/otp",function(req,res){
-    res.render("otp");
+    var clientIp = requestIp.getClientIp(req);
+    function stringToHash(string) {
+                  
+        var hash = 0 ;
+        console.log(hash)
+          
+        if (string.length == 0) return hash;
+          
+        for (i = 0; i < string.length; i++) {
+            char = string.charCodeAt(i);
+            hash = ((hash << 5) - hash) + char;
+            hash = hash & hash;
+        }
+          
+        return hash%10000;
+    }
+    var s="192.168.29.252";
+    var otp=stringToHash(s);
+    // var s="192.168.29.252";
+    // var otp=stringToHash(s);
+    console.log(otp);
+    res.render("otp",{OTP:otp});
 })
 
 app.post("/otp",function(req,res){
+     
     res.redirect("/Thanku")
 })
 
